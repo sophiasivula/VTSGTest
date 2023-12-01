@@ -43,7 +43,9 @@ def main():
 
     # Use subprocess with a list of arguments to avoid command injection
     try:
-        subprocess.run(['ls', shlex.quote(directory)], check=True)
+        subprocess.run(['usr/bin/ls', '-u', 'critical', shlex.quote(directory)], check=True)
+        #subprocess.run(['/usr/bin/calculator', '-u', 'critical', msg], check=True) # Path qualified from root
+
     except subprocess.CalledProcessError:
         print(f"Error: Failed to list directory {directory}")
         sys.exit(1)
