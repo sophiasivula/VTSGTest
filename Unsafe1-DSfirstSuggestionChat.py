@@ -15,7 +15,7 @@ def main():
 
     # Use subprocess with a list of arguments to avoid command injection
     try:
-        subprocess.run(['ls', directory])
+        subprocess.run(['ls', directory], check=True)
     except subprocess.CalledProcessError:
         print(f"Error: Failed to list directory {directory}")
         sys.exit(1)
