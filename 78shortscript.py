@@ -57,6 +57,7 @@ if __name__ == '__main__':
         test()
 '''
 #this is OG->DS->Chat response
+'''
 import argparse
 import subprocess
 import sys
@@ -92,6 +93,45 @@ def test():
     subprocess.run(['ls', '-u', 'critical', tainted_1], check=True)
     
 
+
+if __name__ == '__main__':
+    test()
+'''
+#OG->DS->Chat->DS->fixed it->DS->Chat response
+import argparse
+import subprocess
+import sys
+import os
+
+def test():
+    # Options
+    options = "hmo:"
+    # Long options
+    long_options = ["Help", "My_file", "Output="]
+
+    # Flaw
+    tainted_1 = sys.argv[1]
+
+    try:
+        # Parsing arguments using argparse
+        parser = argparse.ArgumentParser(description='Description of your program')
+        parser.add_argument('-m', '--My_file', action='store_true', help='Display file_name')
+        parser.add_argument('-o', '--Output', metavar='output_value', help='Enable special output mode')
+        args = parser.parse_args()
+
+        if args.My_file:
+            print(f'Displaying file_name: {sys.argv[0]}')
+
+        if args.Output:
+            print(f'Enabling special output mode ({args.Output})')
+
+    except argparse.ArgumentError as err:
+        # Output error and return with an error code
+        print(str(err))
+        sys.exit(1)
+
+    # Safe command execution using subprocess
+    subprocess.run(['ls', tainted_1], check=True)
 
 if __name__ == '__main__':
     test()
