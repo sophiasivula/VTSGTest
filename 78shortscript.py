@@ -89,7 +89,7 @@ def test():
         sys.exit(1)
 
     # Safe command execution using subprocess
-    subprocess.run(['ls', '-u', 'critical', tainted_1] check=True)
+    subprocess.run(['ls', '-u', 'critical', tainted_1], check=True)
     
 
 
