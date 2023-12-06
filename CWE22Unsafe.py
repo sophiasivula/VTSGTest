@@ -1,94 +1,113 @@
-import os
 import math
+import os
 import sys
 
-# Function to count number
-# of characters, words, spaces
-# and lines in a file
+# Function to count number of characters, words, spaces and lines in a file
 def counter(fname):
-	
+ 
     # variable to store total word count
     num_words = 0
-	
+     
     # variable to store total line count
     num_lines = 0
-	
-    # variable to store total character count   
+     
+    # variable to store total character count
     num_charc = 0
-	
+     
     # variable to store total space count
     num_spaces = 0
-	
-
-    arg1 = sys.argv[1]
-    arg2 = arg1
+    
+    tainted_0 = sys.argv[1]
+    tainted_1 = tainted_0
 
     # No filtering (sanitization)
-    arg2 = arg1
+    tainted_1 = tainted_0
 
 
-    print(f'file "{ arg2 }" ', end='')
+    print(f'file "{ tainted_1 }" ', end='')
     #flaw
-    if os.path.exists(arg2):
+    if os.path.exists(tainted_1):
         print('exists')
     else:
         print('does not exist')
-
-
-	# opening file using with() method
-	# so that file gets closed
-	# after completion of work
+     
+    # opening file using with() method
+    # so that file gets closed
+    # after completion of work
     with open(fname, 'r') as f:
-		
-		# loop to iterate file
-		# line by line
-	    for line in f:
-			
-			# separating a line from \n character
-			# and storing again in line
-		    line = line.strip(os.linesep)
-			
-			# splitting the line
-            wordslist = line.split()
-			
-			# incrementing value of num_lines
-            num_lines = num_lines + 1
-			
-			# incrementing value of num_word
-            num_words = num_words + len(wordslist)
-			
-			# incrementing value of num_char
-		    num_charc = num_charc + sum(1 for c in line if c not in (os.linesep, ' '))
-			
-			# incrementing value of num_space
-		    num_spaces = num_spaces + sum(1 for s in line if s in (os.linesep, ' '))
-    
-    
-	
-	# printing total word count
+         
+        # loop to iterate file
+        # line by line
+        for line in f:
+             
+            # incrementing value of num_lines with each
+            # iteration of loop to store total line count
+            num_lines += 1
+             
+            # declaring a variable word and assigning its value as Y
+            # because every file is supposed to start with a word or a character
+            word = 'Y'
+             
+            # loop to iterate every
+            # line letter by letter
+            for letter in line:
+                 
+                # condition to check that the encountered character
+                # is not white space and a word
+                if (letter != ' ' and word == 'Y'):
+                     
+                    # incrementing the word
+                    # count by 1
+                    num_words += 1
+                     
+                    # assigning value N to variable word because until
+                    # space will not encounter a word can not be completed
+                    word = 'N'
+                     
+                # condition to check that the encountered character is a white space
+                elif (letter == ' '):
+                     
+                    # incrementing the space
+                    # count by 1
+                    num_spaces += 1
+                     
+                    # assigning value Y to variable word because after
+                    # white space a word is supposed to occur
+                    word = 'Y'
+                     
+                # loop to iterate every character
+                for i in letter:
+                     
+                    # condition to check white space
+                    if(i !=" " and i !="\n"):
+                         
+                        # incrementing character
+                        # count by 1
+                        num_charc += 1
+                         
+    # printing total word count
     print("Number of words in text file: ",
-		num_words)
-	
-	# printing total line count
+          num_words)
+     
+    # printing total line count
     print("Number of lines in text file: ",
-		num_lines)
-	
-	# printing total character count
-    print("Number of characters in text file: ",
-		num_charc)
-	
-	# printing total space count
-    print("Number of spaces in text file: ",
-		num_spaces)
-
+          num_lines)
+     
+    # printing total character count
+    print('Number of characters in text file: ',
+          num_charc)
+     
+    # printing total space count
+    print('Number of spaces in text file: ',
+          num_spaces)
+     
 # Driver Code:
 if __name__ == '__main__':
-	fname = 'File1.txt'
-	try:
-		counter(fname)
-	except:
-		print('File not found')
-
+    fname = 'File1.txt'
+    try:
+        counter(fname)
+    except:
+        print('File not found')
 
 
 
