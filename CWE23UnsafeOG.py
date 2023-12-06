@@ -1,33 +1,25 @@
 import math
-import os
 import sys
 
 
 def main():
+    tainted_0 = sys.argv[1]
+    tainted_1 = tainted_0
 
-    # no input
-    tainted_2 = None
-
-    tainted_3 = tainted_2
-
-    if (math.sqrt(42)<=42):
-
-        tainted_3 = os.environ['ADD']
+    # No filtering (sanitization)
+    tainted_1 = tainted_0
 
 
-    if sys.platform == 'linux':
-        root = '/home'
-    else:
-        # MacOS
-        root = '/Users'
+    # convert input string to number
+    try:
+        number_of_loops = int(tainted_1)
+    except ValueError:
+        print('Invalid input.  Numeric input expected.  Assuming 1.')
+        number_of_loops = 1
 
-    if tainted_3 is not None:
-        #flaw # no validation - concatenated value could have path traversal
-        file = os.path.join(root, tainted_3)
-        with open(file, 'r') as f:
-            print(f.readline(), end='')
-
-    print('Done')
+    #flaw
+    for j in range(number_of_loops):
+        print('Hello, world')
 
 
 if __name__ == '__main__':
