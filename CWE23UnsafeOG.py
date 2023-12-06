@@ -1,6 +1,3 @@
-
-
-
 import math
 import os
 import sys
@@ -9,11 +6,13 @@ import sys
 def main():
 
     # no input
-    tainted_0 = None
+    tainted_2 = None
 
-    tainted_1 = tainted_0
+    tainted_3 = tainted_2
 
-    tainted_1 = input() # read one line
+    if (math.sqrt(42)<=42):
+
+        tainted_3 = os.environ['ADD']
 
 
     if sys.platform == 'linux':
@@ -22,9 +21,9 @@ def main():
         # MacOS
         root = '/Users'
 
-    if tainted_1 is not None:
+    if tainted_3 is not None:
         #flaw # no validation - concatenated value could have path traversal
-        file = os.path.join(root, tainted_1)
+        file = os.path.join(root, tainted_3)
         with open(file, 'r') as f:
             print(f.readline(), end='')
 
