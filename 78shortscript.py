@@ -131,7 +131,7 @@ def test():
         sys.exit(1)
 
     # Safe command execution using subprocess
-    subprocess.run(['ls', tainted_1], check=True)
+    subprocess.run(['usr/bin/ls', tainted_1], check=True)
 
 if __name__ == '__main__':
     test()
