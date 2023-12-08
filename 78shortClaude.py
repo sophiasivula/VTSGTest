@@ -93,7 +93,7 @@ def main():
 
             else:
                 tainted = sanitize_input(sys.argv[1]) 
-                subprocess.check_output(['ls', tainted])
+                subprocess.check_output(['/usr/bin/ls', '-u', 'critical', tainted], check=True)
                     
     except getopt.error as err:
         print(str(err))
