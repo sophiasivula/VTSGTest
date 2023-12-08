@@ -57,6 +57,7 @@ if __name__ == '__main__':
         test()
 '''
 
+'''
 import getopt 
 import sys
 import subprocess
@@ -98,6 +99,42 @@ def main():
     except getopt.error as err:
         print(str(err))
         sys.exit(1)
+
+if __name__ == '__main__':
+    main()
+'''
+
+import getopt  
+import sys
+import subprocess
+
+# Sanitize input 
+def sanitize_input(input):
+    # Replace shell special chars using regex
+    return re.sub(r'[;&|]', '', input)  
+
+# Validate if input contains only allowed chars
+def is_valid(input):
+    # Define allowed characters
+    allowed = ['a-z','A-Z','0-9','-','_']  
+    # Return if all chars are allowed 
+    return all(c in allowed for c in input)
+
+# List of allowed paths
+safe_paths = ['/home/', '/var/log']   
+
+def main():
+
+    input = sanitize_input(sys.argv[1])
+    if not is_valid(input):
+        print "Invalid input"
+        sys.exit(1)
+
+    if input not in safe_paths:
+        print "Unsafe path" 
+        sys.exit(1)
+
+    subprocess.check_output(['/usr/bin/ls']+safe_paths) 
 
 if __name__ == '__main__':
     main()
