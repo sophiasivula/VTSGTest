@@ -139,7 +139,7 @@ if __name__ == '__main__':
     test()
 '''
 
-import argparse
+'''import argparse
 import sys
 import os
 
@@ -171,6 +171,44 @@ def test():
         # Output error and return with an error code
         print(str(err))
         sys.exit(1)
+
+if __name__ == '__main__':
+    test()
+'''
+
+import argparse
+import sys
+import os
+
+def test():
+    try:
+        # Check if there are any command-line arguments
+        if len(sys.argv) > 1:
+            tainted_1 = sys.argv[1]
+        else:
+            print("No command-line arguments provided.")
+            sys.exit(1)
+
+        # Parsing arguments using argparse
+        parser = argparse.ArgumentParser(
+            description='A script to demonstrate command-line argument parsing',
+            epilog='Additional information about your program.'
+        )
+        parser.add_argument('-m', '--My_file', action='store_true', help='Display file_name')
+        parser.add_argument('-o', '--Output', metavar='output_value', help='Enable special output mode')
+        args = parser.parse_args()
+
+        if args.My_file:
+            current_directory = os.path.abspath(os.path.dirname(sys.argv[0]))
+            file_list = [entry.name for entry in os.scandir(current_directory) if entry.is_file()]
+            print(f'Displaying file list: {file_list}')
+
+        if args.Output:
+            print(f'Enabling special output mode ({args.Output})')
+
+    except argparse.ArgumentError as err:
+        # Print the error message and continue execution
+        print(str(err))
 
 if __name__ == '__main__':
     test()
